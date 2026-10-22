@@ -54,4 +54,13 @@ Real-time collaborative blogging platform
 <!-- TODO: Track mistakes contributors / agents have actually made in this
      repo so future passes avoid them. Keep concrete and specific. -->
 
+- Do not create `.dev.vars`. Local Next.js refuses to start when that file exists. `.env.local` is the only local secret file.
+
+## Cursor Cloud specific instructions
+
+- Node.js 22. Install with `npm ci`. The quality gate is `npm test`, then `npm run pages:build`.
+- `npm run dev` needs `.env.local`. `NEXT_PUBLIC_URL=http://localhost:3000` and a generated `SESSION_SECRET` are enough to boot the public site and local D1. OAuth, Cloudinary, and remote Cloudflare credentials are not required for that.
+- Apply the local D1 schema before feed or explore queries: `npx wrangler d1 migrations apply lixblogs --local`. The dev server is http://localhost:3000.
+- This environment also checks out LinkShield and Gully Games. LinkShield: `npm ci`, then `npm run dev -- --host 0.0.0.0 --port 5173`. Gully Games: `npm install --legacy-peer-deps` (Vite 8 conflicts with the pinned esbuild range), then `PORT=3001 npm run dev`. Sample activities run without `GEMINI_API_KEY`.
+
 @RTK.md
